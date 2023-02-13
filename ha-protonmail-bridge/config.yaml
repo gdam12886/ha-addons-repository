@@ -1,6 +1,6 @@
 ---
 name: ProtonMail bridge - Test
-version: 1.4.0.1
+version: 1.4.0
 slug: pmb
 description: Send emails using your ProtonMail account
 url: https://github.com/fboulay/ha-addons-repository/tree/main/ha-protonmail-bridge
