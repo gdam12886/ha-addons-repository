@@ -13,7 +13,7 @@ image: fboulay/ha-protonmail-bridge-{arch}
 auth_api: true
 ports:
     25/tcp: null
-    1145/tcp: null
+    1143/tcp: null
 ports_description:
     25/tcp: SMTP port. 25 is the default for SMTP servers.
     1143/tcp: IMAP port.
