@@ -1,5 +1,5 @@
 ---
-name: ProtonMail bridge
+name: ProtonMail bridge - Test
 version: 1.4.0
 slug: pmb
 description: Send emails using your ProtonMail account
