@@ -1,0 +1,61 @@
+#!/command/with-contenv bashio
+# shellcheck shell=bash
+export LOG_FD
+# ==============================================================================
+# Home Assistant Community App: Tailscale
+# Publishes Tailscale status on MQTT
+# ==============================================================================
+declare mqtt_host
+declare mqtt_port
+declare mqtt_user
+declare mqtt_pass
+declare mqtt_topic
+declare data
+declare backend_state
+declare self_online
+declare peers
+declare -a mqtt_args
+
+publish_retained() {
+  local topic="${1}"
+  local payload="${2}"
+
+  if ! mosquitto_pub "${mqtt_args[@]}" -t "${topic}" -m "${payload}" -r; then
+    bashio::log.warning "Failed publishing MQTT message to topic ${topic}"
+    return 1
+  fi
+}
+
+mqtt_host=$(bashio::config 'mqtt_host')
+mqtt_port=$(bashio::config 'mqtt_port')
+mqtt_user=$(bashio::config 'mqtt_user')
+mqtt_pass=$(bashio::config 'mqtt_pass')
+mqtt_topic=$(bashio::config 'mqtt_topic')
+mqtt_topic="${mqtt_topic%/}"
+
+mqtt_args=(-h "${mqtt_host}" -p "${mqtt_port}")
+if bashio::var.has_value "${mqtt_user}"; then
+  mqtt_args+=(-u "${mqtt_user}")
+fi
+if bashio::var.has_value "${mqtt_pass}"; then
+  mqtt_args+=(-P "${mqtt_pass}")
+fi
+
+while true; do
+  if data=$(/opt/tailscale status --json 2>/dev/null); then
+    backend_state=$(jq -r '.BackendState // "Unknown"' <<< "${data}")
+    self_online=$(jq -r '.Self.Online // false' <<< "${data}")
+    peers=$(jq -c '.Peer // {}' <<< "${data}")
+
+    publish_retained "${mqtt_topic}/status/raw" "${data}" || true
+    publish_retained "${mqtt_topic}/status/backend_state" "${backend_state}" || true
+    publish_retained "${mqtt_topic}/status/self_online" "${self_online}" || true
+    publish_retained "${mqtt_topic}/status/availability" "online" || true
+    publish_retained "${mqtt_topic}/peers/raw" "${peers}" || true
+  else
+    bashio::log.warning "Unable to read Tailscale status for MQTT publishing"
+    publish_retained "${mqtt_topic}/status/availability" "offline" || true
+  fi
+
+  sleep 60
+done
