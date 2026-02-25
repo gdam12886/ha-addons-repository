@@ -65,6 +65,11 @@ options:
     ssl: false
   taildrop: true
   userspace_networking: true
+  mqtt_host: core-mosquitto
+  mqtt_port: 1883
+  mqtt_user: ""
+  mqtt_pass: ""
+  mqtt_topic: tailscale
 schema:
   accept_dns: bool
   accept_routes: bool
@@ -93,3 +98,8 @@ schema:
     ssl: bool
   taildrop: bool
   userspace_networking: bool
+  mqtt_host: str
+  mqtt_port: int
+  mqtt_user: str?
+  mqtt_pass: str?
+  mqtt_topic: str
