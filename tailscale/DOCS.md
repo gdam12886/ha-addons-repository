@@ -94,6 +94,12 @@ taildrive:
   ssl: false
 taildrop: true
 userspace_networking: true
+mqtt_enabled: false
+mqtt_host: core-mosquitto
+mqtt_port: 1883
+mqtt_user: ""
+mqtt_pass: ""
+mqtt_topic: tailscale
 ```
 
 > [!NOTE]
@@ -427,6 +433,50 @@ access from your local subnet to other tailnet clients.
 in the real source IP address, i.e. subnet devices can see the traffic
 originating from the subnet router, you don't need to disable the
 `snat_subnet_routes` option, this can simplify routing configuration.
+
+### Option: `mqtt_enabled`
+
+Enable publishing Tailscale status over MQTT.
+
+Default: `false`.
+
+### Option: `mqtt_host`
+
+MQTT broker host used by the app to publish Tailscale status.
+
+Default: `core-mosquitto`.
+
+### Option: `mqtt_port`
+
+MQTT broker port used by the app to publish Tailscale status.
+
+Default: `1883`.
+
+### Option: `mqtt_user`
+
+Optional MQTT username for broker authentication.
+
+Default: empty.
+
+### Option: `mqtt_pass`
+
+Optional MQTT password for broker authentication.
+
+Default: empty.
+
+### Option: `mqtt_topic`
+
+Base MQTT topic used for all published Tailscale status topics.
+
+Default: `tailscale`.
+
+The app publishes retained messages to:
+
+- `<mqtt_topic>/status/raw`
+- `<mqtt_topic>/status/backend_state`
+- `<mqtt_topic>/status/self_online`
+- `<mqtt_topic>/status/availability`
+- `<mqtt_topic>/peers/raw`
 
 ## Network
 

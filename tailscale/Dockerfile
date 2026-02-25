@@ -16,6 +16,7 @@ RUN \
         ipcalc=1.0.3-r1 \
         iproute2=6.17.0-r0 \
         iptables=1.8.11-r1 \
+        mosquitto-clients=2.0.22-r1 \
         nginx=1.28.2-r1 \
         coreutils=9.8-r1 \
         networkmanager=1.54.3-r0 \
@@ -70,6 +71,3 @@ LABEL \
     org.opencontainers.image.created=${BUILD_DATE} \
     org.opencontainers.image.revision=${BUILD_REF} \
     org.opencontainers.image.version=${BUILD_VERSION}
-    
-RUN apk add --no-cache python3 py3-pip
-RUN pip install paho-mqtt

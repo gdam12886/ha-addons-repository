@@ -121,6 +121,30 @@ configuration:
       Assistant instance, disable userspace networking mode, which will create a
       `tailscale0` network interface on your host.
       This option is enabled by default.
+  mqtt_enabled:
+    name: Enable MQTT status publishing
+    description: >-
+      This option enables publishing retained Tailscale status updates over MQTT.
+  mqtt_host:
+    name: MQTT host
+    description: >-
+      MQTT broker host used by the app to publish Tailscale status updates.
+  mqtt_port:
+    name: MQTT port
+    description: >-
+      MQTT broker port used by the app to publish Tailscale status updates.
+  mqtt_user:
+    name: MQTT username
+    description: >-
+      Optional MQTT username for broker authentication.
+  mqtt_pass:
+    name: MQTT password
+    description: >-
+      Optional MQTT password for broker authentication.
+  mqtt_topic:
+    name: MQTT topic
+    description: >-
+      Base MQTT topic used to publish retained Tailscale status and peer data.
 network:
   41641/udp: >-
     UDP port to listen on for WireGuard and peer-to-peer traffic.

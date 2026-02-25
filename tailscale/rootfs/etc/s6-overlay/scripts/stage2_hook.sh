@@ -125,3 +125,8 @@ fi
 if bashio::config.equals 'share_homeassistant' 'disabled'; then
     rm /etc/s6-overlay/s6-rc.d/user/contents.d/share-homeassistant
 fi
+
+# Disable MQTT publisher service when it has been explicitly disabled
+if bashio::config.false 'mqtt_enabled'; then
+    rm /etc/s6-overlay/s6-rc.d/user/contents.d/mqtt-publisher
+fi
