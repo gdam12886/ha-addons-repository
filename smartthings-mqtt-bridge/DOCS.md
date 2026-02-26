@@ -5,6 +5,8 @@ Bridge Samsung SmartThings devices to MQTT topics so Home Assistant can consume 
 ## Features
 
 - Polls SmartThings device status and publishes retained MQTT state topics.
+- Auto-discovers entities for all scalar SmartThings attributes across all components.
+- Publishes every SmartThings attribute (including objects/lists) to dedicated MQTT topics.
 - Subscribes to MQTT command topics and forwards commands to SmartThings.
 - Optional Home Assistant MQTT Discovery for common capabilities.
 
@@ -62,8 +64,10 @@ For each SmartThings device ID `<device_id>`:
 
 - State: `<prefix>/<device_id>/state` (JSON, retained)
 - Availability: `<prefix>/<device_id>/availability` (`online` / `offline`, retained)
+- Attribute state: `<prefix>/<device_id>/<component>/<capability>/<attribute>/state`
 - Simple command: `<prefix>/<device_id>/set`
 - Advanced command JSON: `<prefix>/<device_id>/command`
+- Capability command: `<prefix>/<device_id>/<component>/<capability>/set`
 
 Simple command payload examples:
 
@@ -84,6 +88,22 @@ Advanced command payload example:
   ]
 }
 ```
+
+Capability command examples:
+
+- Topic: `smartthings/<device_id>/main/switch/set` payload: `on`
+- Topic: `smartthings/<device_id>/main/lock/set` payload: `lock`
+- Topic: `smartthings/<device_id>/main/switchLevel/set` payload: `{"command":"setLevel","arguments":[50]}`
+
+From your examples, these are now directly supported via capability topics:
+
+- `main/audioVolume/set` with payload `12` (maps to `setVolume`)
+- `main/audioMute/set` with payload `mute` or `unmute`
+- `main/mediaInputSource/set` with payload `HDMI2` (maps to `setInputSource`)
+- `main/custom.picturemode/set` with payload `Movie` (maps to `setPictureMode`)
+- `main/custom.soundmode/set` with payload `Standard` (maps to `setSoundMode`)
+- `main/samsungvd.pictureMode/set` with payload `Eco` (maps to `setPictureMode`)
+- `main/samsungvd.soundMode/set` with payload `Standard` (maps to `setSoundMode`)
 
 ## Notes
 
