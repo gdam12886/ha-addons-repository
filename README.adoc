@@ -30,6 +30,10 @@ Bridge runs in the background by seamlessly encrypting messages as they leave Ho
 
 This addon allow to send notification emails using a ProtonMail account. 
 
+=== link:smartthings-mqtt-bridge/DOCS.md[SmartThings MQTT Bridge]
+
+* Bridge Samsung SmartThings devices to MQTT for Home Assistant and other consumers
+
 == License
 
 MIT License
