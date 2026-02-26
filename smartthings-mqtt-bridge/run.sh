@@ -3,9 +3,9 @@ set -euo pipefail
 
 bashio::log.info "Starting SmartThings MQTT Bridge"
 
-bashio::config.require.smartthings_token
-bashio::config.require.mqtt_host
-bashio::config.require.mqtt_topic_prefix
+bashio::config.require 'smartthings_token'
+bashio::config.require 'mqtt_host'
+bashio::config.require 'mqtt_topic_prefix'
 
 export ST_TOKEN
 export ST_API_BASE

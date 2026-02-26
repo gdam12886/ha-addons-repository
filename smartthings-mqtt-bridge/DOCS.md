@@ -34,6 +34,7 @@ publish_discovery: true
 ### Option: `smartthings_token`
 
 SmartThings personal access token with access to your devices.
+Create one at: `https://account.smartthings.com/tokens`
 
 ### Option: `smartthings_api_base`
 
